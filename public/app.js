@@ -19,10 +19,16 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
     if (!rawInput) return;
 
     let videoId = rawInput;
-    if (rawInput.includes('youtu.be/')) {
-        videoId = rawInput.split('youtu.be/')[1]?.split('?')[0];
-    } else if (rawInput.includes('watch?v=')) {
-        videoId = rawInput.split('watch?v=')[1]?.split('&')[0];
+    try {
+        if (rawInput.includes('youtu.be/')) {
+            videoId = rawInput.split('youtu.be/')[1].split('?')[0];
+        } else if (rawInput.includes('watch?v=')) {
+            videoId = rawInput.split('watch?v=')[1].split('&')[0];
+        } else if (rawInput.includes('embed/')) {
+            videoId = rawInput.split('embed/')[1].split('?')[0];
+        }
+    } catch (e) {
+        videoId = rawInput; // Fallback if parsing fails
     }
 
     const playerContainer = document.getElementById('playerContainer');
@@ -42,6 +48,13 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
             },
             body: payload
         });
+
+        // Debug helper: Check if server returned HTML instead of JSON
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const rawText = await response.text();
+            throw new Error(`Server returned non-JSON response: ${rawText.substring(0, 100)}`);
+        }
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Server validation failed');
