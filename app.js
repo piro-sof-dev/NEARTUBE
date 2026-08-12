@@ -1,5 +1,5 @@
 // public/app.js
-const BACKEND_URL = '__INJECT_BACKEND_URL__';
+const BACKEND_URL = 'https://neartube.onrender.com';
 const APP_SECRET = '__INJECT_APP_SECRET__';
 
 // Helper function to generate SHA-256 HMAC signature in browser crypto
