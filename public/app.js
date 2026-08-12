@@ -1,6 +1,6 @@
-// Point this directly to your live Render backend URL
-const BACKEND_URL = 'https://your-render-app-name.onrender.com';
-const APP_SECRET = 'super-secure-backend-shared-key-change-me'; // Matches backend secret
+// public/app.js
+const BACKEND_URL = '__INJECT_BACKEND_URL__';
+const APP_SECRET = '__INJECT_APP_SECRET__';
 
 // Helper function to generate SHA-256 HMAC signature in browser crypto
 async function generateSignature(timestamp, bodyString, secret) {
@@ -18,7 +18,6 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
     const rawInput = document.getElementById('videoUrlInput').value.trim();
     if (!rawInput) return;
 
-    // Extract clean Video ID from generic URL or direct ID string
     let videoId = rawInput;
     if (rawInput.includes('youtu.be/')) {
         videoId = rawInput.split('youtu.be/')[1]?.split('?')[0];
@@ -47,7 +46,6 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || 'Server validation failed');
 
-        // Render ultra-lightweight embedded player safely
         playerContainer.innerHTML = `
             <iframe src="${data.secureStreamConfig.playerEmbedUrl}" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
