@@ -19,7 +19,7 @@ jobs:
       - name: Inject Environment Variables into App
         run: |
           # Automatically replace placeholders in public/app.js with GitHub Repository Secrets
-          sed -i 's|__INJECT_BACKEND_URL__|https://your-render-app-name.onrender.com|g' public/app.js
+          sed -i 's|__INJECT_BACKEND_URL__|https://neartube.onrender.com|g' public/app.js
           sed -i 's|__INJECT_APP_SECRET__|${{ secrets.RENDER_APP_SECRET }}|g' public/app.js
 
       - name: Setup Pages
