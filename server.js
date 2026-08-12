@@ -56,8 +56,6 @@ app.post('/api/resolve-video', async (req, res) => {
             return res.status(400).json({ error: 'Video ID is required' });
         }
 
-        // Here you can securely process info or call external tools away from public eyes
-        // Returning lightweight structural configuration for your PWA player
         return res.json({
             success: true,
             secureStreamConfig: {
