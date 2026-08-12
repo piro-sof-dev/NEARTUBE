@@ -39,6 +39,8 @@ document.getElementById('loadBtn').addEventListener('click', async () => {
         const timestamp = Date.now().toString();
         const signature = await generateSignature(timestamp, payload, APP_SECRET);
 
+        console.log("Attempting secure fetch to:", `${BACKEND_URL}/api/resolve-video`);
+
         const response = await fetch(`${BACKEND_URL}/api/resolve-video`, {
             method: 'POST',
             headers: {
