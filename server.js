@@ -23,6 +23,11 @@ app.use(express.json());
 
 // Security Middleware: Verifies cryptographic hash signature from your PWA frontend
 app.use('/api/', (req, res, next) => {
+    // If someone tries a GET request on an API route meant for POST, handle it gracefully
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method Not Allowed' });
+    }
+
     const clientSignature = req.headers['x-signature'];
     const timestamp = req.headers['x-timestamp'];
 
@@ -30,13 +35,11 @@ app.use('/api/', (req, res, next) => {
         return res.status(403).json({ error: 'Forbidden: Missing security headers' });
     }
 
-    // Prevent replay attacks: Reject requests older than 3 minutes
     const now = Date.now();
     if (Math.abs(now - parseInt(timestamp)) > 180000) {
         return res.status(403).json({ error: 'Forbidden: Request expired' });
     }
 
-    // Compute expected server-side signature
     const hmac = crypto.createHmac('sha256', APP_SECRET);
     hmac.update(timestamp + JSON.stringify(req.body || {}));
     const expectedSignature = hmac.digest('hex');
