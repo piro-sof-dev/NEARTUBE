@@ -1,0 +1,15 @@
+{
+  "name": "NEARTUBE",
+  "short_name": "NTUBE",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0f0f",
+  "theme_color": "#0f0f0f",
+  "icons": [
+    {
+      "src": "https://via.placeholder.192",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
